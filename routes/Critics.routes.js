@@ -1,35 +1,35 @@
-const express=require('express')
-const Movies = require('../Movies');
+const express=require('express');
+const Criticreview = require('../Criticreview');
 const router=express.Router();
-const app=express();
-// const body=require('body-parser');
-router.get('/movies',async(req,res)=>{
-    const movies=await Movies.find();
-    res.json(movies);
+router.get('/critics',async(req,res)=>{
+    const result=await Criticreview.find();
+    res.json(result);
 })
-router.post('/movies',async(req,res)=>{
-    const val={
-        movieId:req.body.movieId,
-        movieTitle:req.body.movieTitle,
-        movieYear:req.body.movieYear,
-        movieUrl:req.body.movieUrl,
-        movieRank:req.body.movieRank,
-        critic_score:req.body.critic_score,
-        audience_score:req.body.audience_score
-    }
-    const movie=await Movies.create(val);
-    res.json(movie);
+router.get('/critics/:movieId',async(req,res)=>{
+    const movie=req.params.movieId;
+    console.log(movie);
+    const result=await Criticreview.aggregate([
+        {
+            $match:{movieId:movie}
+         }
+        ,{ 
+        $group:{
+        _id:"$normalisedOriginalScore", totalofthisreview:{$count:{}}
+     }}
+    ])
+    console.log(result);
+    res.json(result);
 })
-router.put('/movies/:movieId',async(req,res)=>{
-   await  Movies.findOneAndUpdate({moviesId:req.params.movieId},req.body);
-    // const movie=Movies.findOne({moviesId:req.params.movieId});
-    // const up=movie.updateOne(req.body);
-    res.send('Updated');
+router.post('/critics',async(req,res)=>{
+   const result= await Criticreview.create(req.body);
+    res.json(result);
 })
-router.delete('/movies/:movieId',async(req,res)=>{
-    await Movies.deleteOne({moviesId:req.params.movieId}).then(()=>{
-        res.send('Deletted');
+router.put('/critics/:reviewId',async(req,res)=>{
+    await  Criticreview.findOneAndUpdate({reviewId:req.params.reviewId},req.body);
+})
+router.delete('/critics/:reviewId',async(req,res)=>{
+    const result=await Criticreview.deleteOne({reviewId:req.params.reviewId}).then(()=>{
+        res.send('The critic is deleted');
     })
-
 })
 module.exports=router;
