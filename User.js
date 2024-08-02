@@ -1,6 +1,9 @@
 const mongoose=require('mongoose');
 const UserSchema=new mongoose.Schema({
-    movieId:String,
+    movieId:{
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:"Movies"
+    },
     rating:Number,
     reviewId:String,
     isVerified:Boolean,

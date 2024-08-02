@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie_Reviews_Home</title>
+</head>
+<style>
+    h1{
+        text-align: center;
+    }
+    div{
+        /* border: 2px solid black; */
+        text-align: center;
+        
+    }
+    #container{
+        display: flex;
+        justify-content: space-evenly;
+    }
+</style>
+<body>
+    <h1>Welcome to the Movie Reviews</h1>
+    <div id="container">
+    <div id="movies_div">
+    <h2>Want to view the movies</h2>
+     <button id="movie_list" onclick="getMovies()">Click here</button>
+    </div>
+    <div>
+        <h2>Want to view the Users list</h2>
+        <button onclick="getUsers()">Click here</button>
+    </div>
+</div>
+<script >
+    var getMovies=function(){
+        window.location='/api/movies'
+    }
+    var getUsers=function(){
+        window.location='/api/users'
+    }
+</script>
+</body>
+</html>

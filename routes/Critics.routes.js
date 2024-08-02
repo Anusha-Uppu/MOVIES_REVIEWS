@@ -1,9 +1,13 @@
 const express=require('express');
 const Criticreview = require('../Criticreview');
 const router=express.Router();
+const path=require('path');
 router.get('/critics',async(req,res)=>{
     const result=await Criticreview.find();
     res.json(result);
+})
+router.get('/',async(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'../UI/home.html'));
 })
 router.get('/critics/:movieId',async(req,res)=>{
     const movie=req.params.movieId;

@@ -17,10 +17,10 @@ const MovieSchema=new mongoose.Schema({
         type:Number,
     },
     critic_score:{
-        type:Number,
+        type:String,
     },
     audience_score:{
-        type:Number
+        type:String
     },
     
 },{timestamps:true})

@@ -16,7 +16,8 @@ const criticReviewSchema=new mongoose.Schema({
     scoreSentiment:String,
     originalScore:String,
     movieId:{
-       type: String,
+       type: mongoose.SchemaTypes.ObjectId,
+       ref:"Movies"
     },
     normalisedOriginalScore:{
         type:Number,

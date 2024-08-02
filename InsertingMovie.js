@@ -23,7 +23,15 @@ async function fun(){
         encoding:'utf-8'
     }).pipe(csv())
     .on('data',async function(row){
-        await Movies.create(row);
+        await Movies.create({
+            moviesId:row.movieId,
+            movieTitle:row.movieTitle,
+            movieYear:parseInt(row.movieYear),
+            movieUrl:row.movieURL,
+            movieRank:parseInt(row.movieRank),
+            critic_score:row.critic_score,
+            audience_score:row.audience_score
+        });
     }).on('end', ()=>{
         console.log('Data read successsfully');
     }).on('error',()=>{

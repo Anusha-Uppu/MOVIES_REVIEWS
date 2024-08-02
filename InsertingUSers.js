@@ -4,6 +4,7 @@ const csv=require('csv-parser');
 const connection=require('./Connection');
 const csvParser = require('csv-parser');
 const { pipeline } = require('stream');
+const Movies = require('./Movies');
 let c=0;
 let r=0;
 const users=[];
@@ -15,8 +16,9 @@ async function fun(){
     csvPipe.on('data', async function(row){
         csvPipe.pause();
         try{
+            const mov=await Movies.findOne({moviesId:row.movieId});
             await Users.create({
-                        movieId:row.movieId,
+                        movieId:mov.id,
                         rating:parseInt(row.rating),
                         reviewId:row.reviewId,
                         isVerified:Boolean(row.isVerified),

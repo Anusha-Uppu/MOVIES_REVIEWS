@@ -4,8 +4,9 @@ const Movies = require('../Movies');
 const router=express.Router();
 const app=express();
 // const body=require('body-parser');
-router.get('/movies',async(req,res)=>{
+router.get('/movies',async function getMovies(req,res){
     const movies=await Movies.find();
+     
     res.json(movies);
 })
 router.post('/movies',async(req,res)=>{

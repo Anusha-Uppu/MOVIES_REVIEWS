@@ -2,6 +2,7 @@ const fs=require('fs');
 const csv=require('csv-parser');
 const connection=require('./Connection');
 const Criticreview = require('./Criticreview');
+const Movies = require('./Movies');
 
 const list=[];
 function finding_dinominator(val){
@@ -55,6 +56,15 @@ async function inserting(row){
     if(isNaN(original)){
         original=0;
     }
+    const moviesId=await Movies.findOne({moviesId:row.movieId});
+    let id;
+    if(moviesId!=null){
+         id=moviesId.id;
+        console.log(moviesId);
+    }
+   else{
+    id=null;
+   }
     console.log(original,'original');
     const val={
         reviewId:row.reviewId,
@@ -71,7 +81,7 @@ async function inserting(row){
         quote:row.quote,
         scoreSentiment:row.scoreSentiment,
         originalScore:row.originalScore,
-        movieId:row.movieId,
+        movieId:id,
         normalisedOriginalScore:parseInt(original),
         
     }
