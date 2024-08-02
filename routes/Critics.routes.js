@@ -2,6 +2,7 @@ const express=require('express');
 const Criticreview = require('../Criticreview');
 const router=express.Router();
 const path=require('path');
+const Movies = require('../Movies');
 router.get('/critics',async(req,res)=>{
     const result=await Criticreview.find();
     res.json(result);
@@ -9,12 +10,13 @@ router.get('/critics',async(req,res)=>{
 router.get('/',async(req,res)=>{
     res.sendFile(path.resolve(__dirname,'../UI/home.html'));
 })
-router.get('/critics/:movieId',async(req,res)=>{
-    const movie=req.params.movieId;
-    console.log(movie);
+router.get('/critics/:movieTitle',async(req,res)=>{
+    const movie=req.params.movieTitle;
+    const movieId=await Movies.findOne({movieTitle:movie});
+    console.log(Object (movieId._id));
     const result=await Criticreview.aggregate([
         {
-            $match:{movieId:movie}
+            $match:{movieId:Object(movieId._id)}
          }
         ,{ 
         $group:{

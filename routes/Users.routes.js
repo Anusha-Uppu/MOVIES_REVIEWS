@@ -2,15 +2,17 @@ const express=require('express');
 const router=express.Router();
 const app=express();
 const Users=require('../User');
-const body=require('body-parser')
+const body=require('body-parser');
+const Movies = require('../Movies');
 router.get('/users',async(req,res)=>{
     const users=await Users.find();
     res.json(users);
 })
-router.get('/users/frequency/:movieId',async(req,res)=>{
+router.get('/users/frequency/:movieTitle',async(req,res)=>{
     try{
+        const movieId=await Movies.findOne({movieTitle:req.params.movieTitle});
         const result=await Users.aggregate([
-            {$match:{movieId:req.params.movieId}},
+            {$match:{movieId:Object(movieId._id)}},
             {$group:{
                 _id:"$rating",
                 totalPeople_giventhis_rating:{$count:{}}
